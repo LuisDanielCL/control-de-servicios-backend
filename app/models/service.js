@@ -9,7 +9,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.DATE
     },
     productId: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull:false,
     },
     state: {
