@@ -6,7 +6,7 @@ module.exports = app => {
   router.post("/product", controller.createProduct);
   router.get("/product", controller.readProduct);
   router.get("/product/:id", controller.getProductById);
-  router.delete("/product", controller.deleteProduct);
+  router.delete("/product/:id", controller.deleteProduct);
   router.put("/product", controller.updateProduct);
   router.get("/products/count", controller.countProducts);
 

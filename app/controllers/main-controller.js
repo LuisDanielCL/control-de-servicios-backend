@@ -81,13 +81,7 @@ exports.countProducts = (req, res) => {
 };
 
 exports.deleteProduct = (req, res) => {
-  if (!req.body.id) {
-    res.status(400).send({
-      message: "id required"
-    });
-    return;
-  }
-  const id = req.body.id;
+  const id = req.params.id;
 
   Products.destroy({
     where: { id: id }
