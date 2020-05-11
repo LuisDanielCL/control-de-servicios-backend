@@ -50,9 +50,9 @@ exports.updateProduct = (req, res) => {
 
 exports.readProduct = (req, res) => { // body/optional {direction, filter, limit, offset }
   const options = {};
-  if (req.body.filter && req.body.direction) options.order = [[req.body.filter, req.body.direction]];
-  if (req.body.limit) options.limit = req.body.limit;
-  if (req.body.offset) options.offset = req.body.offset;
+  if (req.query.filter && req.query.direction) options.order = [[req.query.filter, req.query.direction]];
+  if (req.query.limit) options.limit = parseInt(req.query.limit);
+  if (req.query.offset) options.offset = parseInt(req.query.offset);
 
   Products.findAll(options)
     .then(data => {
