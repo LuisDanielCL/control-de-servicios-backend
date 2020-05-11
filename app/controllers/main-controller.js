@@ -112,7 +112,7 @@ exports.getProductById = (req, res) => {
 
 
 exports.createService = (req, res) => {
-  if (!req.body.nextServiceDate || !req.body.productId || !req.body.state) {
+  if (!req.body.nextServiceDate || !req.body.productId || !req.body.type || !req.body.state) {
     res.status(400).send({
       message: "nextServiceDate, productId and acquisitionDate cant be empty"
     });
@@ -121,6 +121,7 @@ exports.createService = (req, res) => {
   const service = {
     state: req.body.state,
     productId: req.body.productId,
+    type: req.body.type,
     nextServiceDate: new Date(req.body.nextServiceDate),
   };
   Services.create(service).then(data => {
@@ -150,15 +151,16 @@ exports.deleteService = (req, res) => {
 };
 
 exports.updateService = (req, res) => {
-  if (!req.body.id || !req.body.nextServiceDate || !req.body.productId || !req.body.state) {
+  if (!req.body.id || !req.body.nextServiceDate || !req.body.productId || !req.body.type || !req.body.state) {
     res.status(400).send({
-      message: "id, nextServiceDate, productId and state cant be empty"
+      message: "id, nextServiceDate, productId, type and state cant be empty"
     });
     return;
   }
   const service = {
     state: req.body.state,
     productId: req.body.productId,
+    type: req.body.type,
     nextServiceDate: new Date(req.body.nextServiceDate),
   };
   Services.update(service,{ where: {id: req.body.id } }).then(data => {
