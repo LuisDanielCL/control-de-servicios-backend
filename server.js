@@ -1,7 +1,21 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-
 const app = express();
+
+var cors = function(req, res, next) {
+  var whitelist = [
+    'http://localhost:3000',
+    'https://control-de-servicios.herokuapp.com',
+  ];
+  var origin = req.headers.origin;
+  if (whitelist.indexOf(origin) > -1) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+  next();
+}
+app.use(cors);
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
