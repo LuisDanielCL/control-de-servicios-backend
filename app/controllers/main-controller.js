@@ -50,7 +50,7 @@ exports.updateProduct = (req, res) => {
 
 exports.readProduct = (req, res) => { // body/optional {direction, filter, limit, offset }
   const options = {};
-  if (req.query.filter && req.query.direction) options.order = [[req.query.filter, req.query.direction]];
+  if (req.query.filter && req.query.direction){options.order = [[req.query.filter, req.query.direction]]};
   if (req.query.limit) options.limit = parseInt(req.query.limit);
   if (req.query.offset) options.offset = parseInt(req.query.offset);
 
@@ -175,7 +175,16 @@ exports.updateService = (req, res) => {
 
 exports.readService = (req, res) => { // body/optional {direction, filter, limit, offset }
   const options = {include: [Products]};
-  if (req.query.filter && req.query.direction) options.order = [[req.query.filter, req.query.direction]];
+  if (req.query.filter && req.query.direction) {
+    const filter = req.query.filter.split(".");
+    if (filter[0] === "service") {
+      options.order = [[filter[1], req.query.direction]];
+    } else {
+      options.order = [[Products ,filter[1], req.query.direction]];
+    }
+
+
+  }
   if (req.query.limit) options.limit = parseInt(req.query.limit);
   if (req.query.offset) options.offset = parseInt(req.query.offset);
 
