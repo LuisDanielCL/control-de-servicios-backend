@@ -19,10 +19,17 @@ exports.createProduct = (req, res) => {
   Products.create(product).then(data => {
     res.send(data);
   }).catch(err => {
-    res.status(500).send({
-      message:
-        err.message || "Something happened while creating a new product"
-    });
+    if (err.original.errno === 1062){
+      res.status(500).send({
+        message:
+          "Duplicated Id when creating this product"
+      });
+    } else {
+      res.status(500).send({
+        message:
+          err.original.sqlMessage  || "Something happened while creating a new product"
+      });
+    }
   });
 };
 
@@ -42,7 +49,7 @@ exports.updateProduct = (req, res) => {
   }).catch(err => {
     res.status(500).send({
       message:
-        err.message || "Something happened while updating a new product"
+        err.original.sqlMessage || "Something happened while updating a new product"
     });
   });
 };
@@ -62,7 +69,7 @@ exports.readProduct = (req, res) => { // body/optional {direction, filter, limit
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving products."
+          err.original.sqlMessage || "Some error occurred while retrieving products."
       });
     });
 };
@@ -75,7 +82,7 @@ exports.countProducts = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving count of products."
+          err.original.sqlMessage || "Some error occurred while retrieving count of products."
       });
     });
 };
@@ -129,7 +136,7 @@ exports.createService = (req, res) => {
   }).catch(err => {
     res.status(500).send({
       message:
-        err.message || "Something happened while creating a new service"
+        err.original.sqlMessage || "Something happened while creating a new service"
     });
   });
 };
@@ -168,7 +175,7 @@ exports.updateService = (req, res) => {
   }).catch(err => {
     res.status(500).send({
       message:
-        err.message || "Something happened while updating a new service"
+        err.original.sqlMessage || "Something happened while updating a new service"
     });
   });
 };
@@ -195,7 +202,7 @@ exports.readService = (req, res) => { // body/optional {direction, filter, limit
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving services."
+          err.original.sqlMessage || "Some error occurred while retrieving services."
       });
     });
 };
@@ -208,7 +215,7 @@ exports.countServices = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving count of services."
+          err.original.sqlMessage || "Some error occurred while retrieving count of services."
       });
     });
 };
